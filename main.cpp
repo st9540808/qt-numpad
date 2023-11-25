@@ -10,10 +10,12 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
 
-//  QFile file(":/dark/stylesheet.qss");
-//  file.open(QFile::ReadOnly | QFile::Text);
-//  QTextStream stream(&file);
-//  a.setStyleSheet(stream.readAll());
+  a.setStyle(QStyleFactory::create("Fusion"));
+
+  QFile file(":/dark/stylesheet.qss");
+  file.open(QFile::ReadOnly | QFile::Text);
+  QTextStream stream(&file);
+  a.setStyleSheet(stream.readAll());
 
   MainWindow w;
   w.show();

@@ -11,7 +11,7 @@ public:
   ~MyLineEdit();
 
 signals:
-  void focussed(bool hasFocus);
+  void focussed(QWidget *widget);
 
 protected:
   virtual void focusInEvent(QFocusEvent *e);

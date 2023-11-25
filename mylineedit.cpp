@@ -11,11 +11,12 @@ MyLineEdit::~MyLineEdit() {}
 void MyLineEdit::focusInEvent(QFocusEvent *e)
 {
   QLineEdit::focusInEvent(e);
-  emit(focussed(true));
+  emit(focussed(this));
 }
 
 void MyLineEdit::focusOutEvent(QFocusEvent *e)
 {
   QLineEdit::focusOutEvent(e);
-  emit(focussed(false));
+  /// Only emit when focus in
+  // emit(focussed(false));
 }

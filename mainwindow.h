@@ -17,9 +17,6 @@ public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
-public slots:
-  void showNumpad(bool hasFocus);
-
 private:
   Ui::MainWindow *ui;
 
