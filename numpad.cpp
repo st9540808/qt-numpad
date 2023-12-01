@@ -7,6 +7,7 @@
 #include <QEvent>
 #include <QGuiApplication>
 #include <QLineEdit>
+#include <QString>
 #include <QTextEdit>
 #include <QValidator>
 #include <QWidget>
@@ -107,12 +108,23 @@ void Numpad::initKeys()
 void Numpad::enterClicked()
 {
   QString tmp1, tmp2;
+
   tmp1 = ui->edValue->text().right(1);
   tmp2 = ui->btn_period->text();
   if (tmp1 == tmp2) {
-    ui->edValue->insert(
-        ui->edValue->text().left(ui->edValue->text().length() - 1));
+    ui->edValue->insert("0");
   }
+
+  if (const QDoubleValidator *validator
+      = qobject_cast<const QDoubleValidator *>(this->validator)) {
+    double res = ui->edValue->text().toDouble();
+    ui->edValue->setText(QString::number(res, 'f', validator->decimals()));
+  } else if (const QIntValidator *validator
+             = qobject_cast<const QIntValidator *>(this->validator)) {
+    int res = ui->edValue->text().toInt();
+    ui->edValue->setText(QString::number(res));
+  }
+
   popData();
 }
 
@@ -203,10 +215,14 @@ void Numpad::checkValue()
   }
 }
 
+/**
+ * @brief Clear text when the LineEdit is focused and pressed a key
+ *
+ */
 void Numpad::checkFirst()
 {
-  // if (bFirst) {
-  //   ui->edValue->clear();
-  //   bFirst = false;
-  // }
+  if (bFirst) {
+    ui->edValue->clear();
+    bFirst = false;
+  }
 }

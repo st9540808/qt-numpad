@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include <QDoubleValidator>
+#include <QIntValidator>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,9 +13,12 @@ MainWindow::MainWindow(QWidget *parent)
   m_numpad = new Numpad(parent, this);
   m_numpad->hide();
 
-  ui->lineEdit->setValidator(new QDoubleValidator(0., 5., 5));
-
+  ui->lineEdit->setValidator(new QDoubleValidator(0., 5., 3, ui->lineEdit));
   connect(ui->lineEdit, SIGNAL(focussed(QWidget *)), m_numpad,
+          SLOT(showNumpad(QWidget *)));
+
+  ui->lineEdit_2->setValidator(new QIntValidator(0., 100, ui->lineEdit_2));
+  connect(ui->lineEdit_2, SIGNAL(focussed(QWidget *)), m_numpad,
           SLOT(showNumpad(QWidget *)));
 }
 
