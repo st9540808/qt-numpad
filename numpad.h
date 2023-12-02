@@ -44,6 +44,7 @@ private:
   void popData();
   void checkValue();
   void checkFirst();
+  void updatePosition();
   QPalette orgPalette;
 
 signals:

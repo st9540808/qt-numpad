@@ -7,6 +7,7 @@
 #include <QEvent>
 #include <QGuiApplication>
 #include <QLineEdit>
+#include <QScreen>
 #include <QString>
 #include <QTextEdit>
 #include <QValidator>
@@ -42,6 +43,7 @@ void Numpad::showNumpad(QWidget *widget)
 void Numpad::activate(QWidget *widget, QVariant initValue)
 {
   QLineEdit *lineEdit = qobject_cast<QLineEdit *>(widget);
+
   this->validator = lineEdit->validator();
   ui->edValue->clear();
   ui->edValue->insert(initValue.toString());
@@ -60,6 +62,7 @@ void Numpad::activate(QWidget *widget, QVariant initValue)
 
   bFirst = true;
 
+  updatePosition();
   show();
   checkValue();
 }
@@ -178,6 +181,7 @@ void Numpad::popData()
   QLineEdit *lineEdit = qobject_cast<QLineEdit *>(this->focusWidget);
   lineEdit->setText(v.toString());
   close();
+  this->focusWidget = nullptr;
   this->mainwindow->setEnabled(true);
 }
 
@@ -224,5 +228,26 @@ void Numpad::checkFirst()
   if (bFirst) {
     ui->edValue->clear();
     bFirst = false;
+  }
+}
+
+void Numpad::updatePosition(void)
+{
+  const int x_offset = 20;
+
+  if (this->focusWidget) {
+    QSize screenGeo = this->mainwindow->size();
+    QRect lineGeo = this->focusWidget->geometry();
+    QRect numGeo = this->geometry();
+
+    qDebug() << this->mainwindow->size() << lineGeo;
+
+    if (lineGeo.x() >= screenGeo.width() / 2) {
+      this->move(0 + x_offset,
+                 (screenGeo.height() / 2) - (numGeo.height() / 2));
+    } else {
+      this->move((screenGeo.width()) - (numGeo.width()) - x_offset,
+                 (screenGeo.height() / 2) - (numGeo.height() / 2));
+    }
   }
 }
